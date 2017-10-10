@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="EmploymentPaySheetModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="EMPLOYEE">
+          <Key>
+            <PropertyRef Name="Emp#" />
+          </Key>
+          <Property Name="Emp#" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmpLastName" Type="varchar" MaxLength="20" />
+          <Property Name="EmpFirstName" Type="varchar" MaxLength="20" />
+          <Property Name="HireDate" Type="date" />
+        </EntityType>
+        <EntityType Name="EmployeeHours">
+          <Key>
+            <PropertyRef Name="Emp#" />
+            <PropertyRef Name="WorkDate" />
+          </Key>
+          <Property Name="Emp#" Type="int" Nullable="false" />
+          <Property Name="WorkDate" Type="date" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="50" />
+          <Property Name="HoursWorked" Type="int" />
+        </EntityType>
+        <Association Name="FK__EmployeeHo__Emp#__71D1E811">
+          <End Role="EMPLOYEE" Type="Self.EMPLOYEE" Multiplicity="1" />
+          <End Role="EmployeeHours" Type="Self.EmployeeHours" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EMPLOYEE">
+              <PropertyRef Name="Emp#" />
+            </Principal>
+            <Dependent Role="EmployeeHours">
+              <PropertyRef Name="Emp#" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EmploymentPaySheetModelStoreContainer">
+          <EntitySet Name="EMPLOYEE" EntityType="Self.EMPLOYEE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeHours" EntityType="Self.EmployeeHours" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__EmployeeHo__Emp#__71D1E811" Association="Self.FK__EmployeeHo__Emp#__71D1E811">
+            <End Role="EMPLOYEE" EntitySet="EMPLOYEE" />
+            <End Role="EmployeeHours" EntitySet="EmployeeHours" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EmploymentPaySheetModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="EMPLOYEE">
+          <Key>
+            <PropertyRef Name="Emp_" />
+          </Key>
+          <Property Name="Emp_" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmpLastName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="EmpFirstName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="HireDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="EmployeeHours" Relationship="Self.FK__EmployeeHo__Emp___71D1E811" FromRole="EMPLOYEE" ToRole="EmployeeHours" />
+        </EntityType>
+        <EntityType Name="EmployeeHour">
+          <Key>
+            <PropertyRef Name="Emp_" />
+            <PropertyRef Name="WorkDate" />
+          </Key>
+          <Property Name="Emp_" Type="Int32" Nullable="false" />
+          <Property Name="WorkDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="HoursWorked" Type="Int32" />
+          <NavigationProperty Name="EMPLOYEE" Relationship="Self.FK__EmployeeHo__Emp___71D1E811" FromRole="EmployeeHours" ToRole="EMPLOYEE" />
+        </EntityType>
+        <Association Name="FK__EmployeeHo__Emp___71D1E811">
+          <End Role="EMPLOYEE" Type="Self.EMPLOYEE" Multiplicity="1" />
+          <End Role="EmployeeHours" Type="Self.EmployeeHour" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EMPLOYEE">
+              <PropertyRef Name="Emp_" />
+            </Principal>
+            <Dependent Role="EmployeeHours">
+              <PropertyRef Name="Emp_" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EmploymentPaySheetEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="EMPLOYEEs" EntityType="Self.EMPLOYEE" />
+          <EntitySet Name="EmployeeHours" EntityType="Self.EmployeeHour" />
+          <AssociationSet Name="FK__EmployeeHo__Emp___71D1E811" Association="Self.FK__EmployeeHo__Emp___71D1E811">
+            <End Role="EMPLOYEE" EntitySet="EMPLOYEEs" />
+            <End Role="EmployeeHours" EntitySet="EmployeeHours" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EmploymentPaySheetModelStoreContainer" CdmEntityContainer="EmploymentPaySheetEntities">
+          <EntitySetMapping Name="EMPLOYEEs">
+            <EntityTypeMapping TypeName="EmploymentPaySheetModel.EMPLOYEE">
+              <MappingFragment StoreEntitySet="EMPLOYEE">
+                <ScalarProperty Name="Emp_" ColumnName="Emp#" />
+                <ScalarProperty Name="EmpLastName" ColumnName="EmpLastName" />
+                <ScalarProperty Name="EmpFirstName" ColumnName="EmpFirstName" />
+                <ScalarProperty Name="HireDate" ColumnName="HireDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeHours">
+            <EntityTypeMapping TypeName="EmploymentPaySheetModel.EmployeeHour">
+              <MappingFragment StoreEntitySet="EmployeeHours">
+                <ScalarProperty Name="Emp_" ColumnName="Emp#" />
+                <ScalarProperty Name="WorkDate" ColumnName="WorkDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="HoursWorked" ColumnName="HoursWorked" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
